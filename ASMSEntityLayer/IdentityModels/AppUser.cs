@@ -6,13 +6,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ASMSEntityLayer.Models;
 
 namespace ASMSEntityLayer.IdentityModels
 {
-    public class AppUser:IdentityUser
+    public class AppUser:IdentityUser,IBase
     {
         [DataType(DataType.DateTime)]
-        public DateTime RegisterDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
         [Required(ErrorMessage ="İsim Gereklidir!")]
         [StringLength(50,MinimumLength =2,ErrorMessage ="İsminiz en az 2 en çok 50 karakter olmalıdır!")]
         public string Name { get; set; }
@@ -21,10 +22,17 @@ namespace ASMSEntityLayer.IdentityModels
         public string Surname { get; set; }
         [StringLength(11, MinimumLength = 11, ErrorMessage = "TC 11 haneli olmalıdır!")]
         public string TCNumber { get; set; }
+        public bool IsDeleted { get; set; } = false;
+
         public string Picture { get; set; }
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
         [Required(ErrorMessage = "Cinsiyet seçimi gereklidir!")]
         public Genders Gender { get; set; }
+
+        //İlişkiler
+
+        public virtual ICollection<UsersAddress> UsersAddresses { get; set; }
+
     }
 }
