@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace ASMSEntityLayer.IdentityModels
 {
-    public class AppRole :IdentityRole , IBase
+    public class AppRole : IdentityRole, IBase
     {
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        [StringLength(500,ErrorMessage ="Role açıklaması en fazla 500 karakter olmalıdır!")]
-        public string Decription { get; set; }
+
+        [StringLength(500, ErrorMessage = "Role açıklaması en fazla 500 karakter olmalıdır!")]
+        public string Description { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
 }

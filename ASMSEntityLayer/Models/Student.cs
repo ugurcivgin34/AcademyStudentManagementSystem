@@ -8,16 +8,14 @@ using System.Threading.Tasks;
 
 namespace ASMSEntityLayer.Models
 {
-    [Table("Teachers")]
-    public class Teacher : PersonBase
+    [Table("Students")]
+    public class Student : PersonBase
     {
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual AppUser AppUser { get; set; }
-
-        //ilişkinin karşılığı
-        public virtual ICollection<CourseGroup> CourseGroups
-        { get; set; }
+        // ilişkinin karşılığı öğrencinin kurslarının/eğitimlerinin listesi
+        public virtual ICollection<StudentsCourseGroup> Courses { get; set; }
     }
 }

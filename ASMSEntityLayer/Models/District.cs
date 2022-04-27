@@ -12,16 +12,12 @@ namespace ASMSEntityLayer.Models
     public class District : Base<int>
     {
         [Required]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "İlçe adı en fazla 50 en az 2 karakter aralığında olmalıdır!")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "İlçe adı en az 2 en çok 50 karakter aralığında olmalıdır!!")]
         public string DistrictName { get; set; }
-
         //ilişki
         public byte CityId { get; set; }
         [ForeignKey("CityId")]
         public virtual City City { get; set; }
-
-        //districte gelin
-
         public virtual ICollection<Neighbourhood> Neighbourhoods { get; set; }
 
     }

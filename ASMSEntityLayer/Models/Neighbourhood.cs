@@ -9,20 +9,18 @@ using System.Threading.Tasks;
 namespace ASMSEntityLayer.Models
 {
     [Table("Neighbourhoods")]
-    public class Neighbourhood :Base<int>
+    public class Neighbourhood : Base<int>
     {
         [Required]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "Mahalle adı en fazla 50 en az 2 karakter aralığında olmalıdır!")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Mahalle adı en az 2 en çok 50 karakter aralığında olmalıdır!!")]
         public string NeighbourhoodName { get; set; }
-
         //ilişki ilçeyle
-
         public int DistrictId { get; set; }
         [ForeignKey("DistrictId")]
         public virtual District District { get; set; }
-
-        //ilişki
+        // ilişki
         public virtual ICollection<UsersAddress> UsersAddresses { get; set; }
+
 
     }
 }
