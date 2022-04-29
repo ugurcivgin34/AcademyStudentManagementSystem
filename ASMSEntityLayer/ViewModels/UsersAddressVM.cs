@@ -25,12 +25,12 @@ namespace ASMSEntityLayer.ViewModels
         [StringLength(5, MinimumLength = 5, ErrorMessage = "Posta Kodu 5 karakter olmalıdır!!")]
         public string PostCode { get; set; }
         public  AppUser AppUser { get; set; }
-        public  Neighbourhood Neighbourhood { get; set; } //includeEntities
+        public  NeighbourhoodVM Neighbourhood { get; set; } //includeEntities
 
         //TODO: ???? Aşağıdakilerle il ve ilçeye ulaşabilir miyim ?
 
-        public City City { get; set; }
-        public District District { get; set; }
+        public CityVM City { get; set; }
+        public DistrictVM District { get; set; }
 
 
     }

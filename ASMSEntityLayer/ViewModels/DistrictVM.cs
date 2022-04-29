@@ -1,18 +1,16 @@
-﻿using System;
+﻿using ASMSEntityLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASMSEntityLayer.Models
+namespace ASMSEntityLayer.ViewModels
 {
-    [Table("Districts")]
-    public class District : Base<int>
+    public class DistrictVM
     {
         public int Id { get; set; }
-
        
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
@@ -22,9 +20,8 @@ namespace ASMSEntityLayer.Models
         public string DistrictName { get; set; }
         //ilişki
         public byte CityId { get; set; }
-        [ForeignKey("CityId")]
-        public virtual City City { get; set; }
-        public virtual ICollection<Neighbourhood> Neighbourhoods { get; set; }
-
+      
+        public  CityVM City { get; set; }
+        public  ICollection<NeighbourhoodVM> Neighbourhoods { get; set; }
     }
 }
