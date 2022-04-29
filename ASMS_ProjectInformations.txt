@@ -5,3 +5,6 @@
 -Microsoft.EntityFrameworkCore.Design 5.0.14
 -Microsoft.AspNetCore.Identity.EntityFrameworkCore 5.0.14
 
+-------------------------------------------------------------
+AutoMApper 9.0.0
+AutoMapper.Extensions.Microsoft.DependencyInjection 7.0.0
