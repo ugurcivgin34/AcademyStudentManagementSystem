@@ -114,7 +114,7 @@ namespace ASMSPresentationLayer.Controllers
             }
         }
 
-        
+
         [HttpGet]
         public IActionResult Login(string email)
         {
@@ -137,7 +137,7 @@ namespace ASMSPresentationLayer.Controllers
 
                 var user = await _userManager.FindByNameAsync(model.Email);
                 //var user = _userManager.FindByEmailAsync(model.Email);
-                if (user==null)
+                if (user == null)
                 {
                     ModelState.AddModelError("", "Epostanız ya da şifreniz hatalıdır! Tekrar deneyiniz!");
                     return View();
@@ -161,7 +161,7 @@ namespace ASMSPresentationLayer.Controllers
                 }
                 //Artık hoşgeldi
 
-                if (_userManager.IsInRoleAsync(user,ASMSRoles.Student.ToString()).Result)
+                if (_userManager.IsInRoleAsync(user, ASMSRoles.Student.ToString()).Result)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -196,7 +196,7 @@ namespace ASMSPresentationLayer.Controllers
         {
             try
             {
-                var user =await _userManager.FindByEmailAsync(email);
+                var user = await _userManager.FindByEmailAsync(email);
                 if (user == null)
                 {
                     ViewBag.ResetPasswordSuccessMessage = "Şifre yenileme talebiniz alındı! Epostanızı kontrol ediniz";
@@ -206,17 +206,17 @@ namespace ASMSPresentationLayer.Controllers
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var codeEncode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callBackUrl= Url.Action("ConfirmResetPassword","Account", new {userId=user.Id,code=codeEncode},
-                    protocol:Request.Scheme);
+                var callBackUrl = Url.Action("ConfirmResetPassword", "Account", new { userId = user.Id, code = codeEncode },
+                    protocol: Request.Scheme);
 
                 var emailMessage = new EmailMessage()
                 {
                     Contacts = new string[] { user.Email },
                     Subject = "ASMS - Yeni Şifre Talebi",
-                    Body =$"Merhaba {user.Name} {user.Surname}," +
+                    Body = $"Merhaba {user.Name} {user.Surname}," +
                     $"<br/> Yeni parola belirlemek için" +
                     $"<a href='{HtmlEncoder.Default.Encode(callBackUrl)}'> buraya <a/> tıklayınız..."
-                    
+
                 };
 
                 await _emailSender.SendMessage(emailMessage);
@@ -231,5 +231,65 @@ namespace ASMSPresentationLayer.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public IActionResult ConfirmResetPassword(string userId, string code)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
+            {
+                ViewBag.ConfirmResetPasswordFailureMessage = "Beklenmedik bir hata oluştu!";
+                return View();
+            }
+            ResetPasswordViewModel model = new ResetPasswordViewModel()
+            {
+                UserId = userId,
+                Code = code
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmResetPassword(ResetPasswordViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+
+                }
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Kullanıcı Bulunamadı!");
+                    //log mesajı yerleştir
+                    //throw new Exception();
+                }
+
+                var tokenDecoded = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code));
+
+                var result = await _userManager.ResetPasswordAsync(user, tokenDecoded, model.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    TempData["ComfirmResetPasswordSuccess"] = "Şifreniz başarıyla güncellenmiştir!";
+                    return RedirectToAction("Login","Account",new { email=user.Email });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Şifrenizde değiştirilme işleminde beklenmedik bir hata oluştu! Tekrar deneyiniz");
+                    return View(model);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //ex loglanacak
+                ModelState.AddModelError("", "Beklenmedik bir hata oluştu! Tekrar deneyiniz!");
+                return View(model);
+            }
+        }
+
     }
 }
