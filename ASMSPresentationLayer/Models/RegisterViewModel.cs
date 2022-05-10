@@ -9,13 +9,18 @@ namespace ASMSPresentationLayer.Models
 
         [Required]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "TCKimlik numarası 11 haneli olmalıdır!")]
+        [Display(Name ="TC Kimlik Numarası")]
         public string TCNumber { get; set; }
 
         [Required(ErrorMessage = "İsim Gereklidir!")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "İsminiz en az 2 en çok 50 karakter olmalıdır!")]
+        [Display(Name = "İsim")]
         public string Name { get; set; }
+
         [Required(ErrorMessage = "Soyisim Gereklidir!")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Soyisminiz en az 2 en çok 50 karakter olmalıdır!")]
+        [Display(Name = "Soy İsim")]
+
         public string Surname { get; set; }
 
         [Required(ErrorMessage = "Email zorunludur!")]
@@ -28,8 +33,11 @@ namespace ASMSPresentationLayer.Models
         public string Password { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Doğum Tarihi")]
         public DateTime? BirthDate { get; set; }
         [Required(ErrorMessage = "Cinsiyet seçimi Gereklidir!")]
+
+        [Display(Name = "Cinsiyet")]
         public Genders Gender { get; set; }
 
 

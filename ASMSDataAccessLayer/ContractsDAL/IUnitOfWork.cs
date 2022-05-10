@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ASMSDataAccessLayer.ContractsDAL
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork 
     {
         ICityRepo CityRepo { get;  }
         IClassRepo ClassRepo { get;  }

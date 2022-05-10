@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ASMSEntityLayer.Mappings;
 using ASMSBusinessLayer.EmailService;
+using ASMSBusinessLayer.ContractBLL;
+using ASMSBusinessLayer.ImplementationsBLL;
+using ASMSDataAccessLayer.ContractsDAL;
+using ASMSDataAccessLayer.ÝmplementationsDAL;
 
 namespace ASMSPresentationLayer
 {
@@ -30,7 +34,7 @@ namespace ASMSPresentationLayer
         public void ConfigureServices(IServiceCollection services)
         {
             //Aspnet Core'un ConnectionString baðlantýsý yapabilmesi için yapýlandýrma servislerine dbcontext nesnesini eklemesi gerekir.
-            services.AddDbContext<MyContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+            services.AddDbContext<MyContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection")),ServiceLifetime.Scoped);//Mycontext aþaðýda unitofwork da da yapmýþtýk burda da çakýþma durumu olduðu için bunu önlemek amaçlý ServiceLifeTime komutunu kullandýk
             services.AddControllersWithViews();
 
             services.AddRazorPages(); //Razo sayfalarý için
@@ -52,14 +56,17 @@ namespace ASMSPresentationLayer
             //Mapleme eklendi
             services.AddAutoMapper(typeof(Maps));
 
-            services.AddScoped<IEmailSender, EmailSender>();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IStudentBusinessEngine, StudentBusinessEngine>();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
 
           
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,RoleManager<AppRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -75,6 +82,10 @@ namespace ASMSPresentationLayer
             app.UseAuthorization(); // [Authorize] attribute için (yetki)
             app.UseAuthentication(); // Login Logout iþlemlerinin gerektirtiði oturum iþleyiþlerini kullanabilmek için.
             //MVC ile ayný kod bloðu endpoint'in mekanizmasýnýn nasýl olacaðý belirleniyor
+
+            //rolleri oluþturacak static metot çaðrýldý
+            CreateDefaultData.CreateData.Create(roleManager);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
