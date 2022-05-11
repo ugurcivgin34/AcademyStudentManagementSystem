@@ -23,8 +23,6 @@ namespace ASMSBusinessLayer.EmailService
         public string Password => _configuration.GetSection("EmailOptions:Password").Value;
         public string Smtp => _configuration.GetSection("EmailOptions:Smtp").Value;
         public int SmtpPort => Convert.ToInt32(_configuration.GetSection("EmailOptions:SmtpPort").Value);
-
-
         public async Task SendMessage(EmailMessage message)
         {
             try

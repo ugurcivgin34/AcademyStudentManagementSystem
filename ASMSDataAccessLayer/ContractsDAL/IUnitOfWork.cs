@@ -20,5 +20,7 @@ namespace ASMSDataAccessLayer.ContractsDAL
         ITeacherRepo TeacherRepo { get;  }
         IUsersAddressRepo UsersAddressRepo { get;  }    
 
+      
+
     }
 }

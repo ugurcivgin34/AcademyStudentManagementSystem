@@ -23,7 +23,11 @@ namespace ASMSEntityLayer.Mappings
             //Yukarıdakinin aynısı tek seferde yapmak UserAdress ve VM'yi birbirine dönüştür.
 
             CreateMap<UsersAddress, UsersAddressVM>().ReverseMap(); //Her iki durumu da sağlıyor.Ayrı ayrı yazmaya gerek kalmıyor.
-
+            CreateMap<Student, StudentVM>().ReverseMap(); 
+            CreateMap<City, CityVM>().ReverseMap();
+            CreateMap<District, DistrictVM>().ReverseMap();
+            CreateMap<Neighbourhood, NeighbourhoodVM>().ReverseMap();
+            
         }
 
 
