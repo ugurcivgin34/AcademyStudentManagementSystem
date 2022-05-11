@@ -79,8 +79,8 @@ namespace ASMSPresentationLayer
             app.UseStaticFiles(); // wwwroot klasörünün eriþimi içindir.
             app.UseRouting(); // Controller/Action/Id
             app.UseSession(); // Oturum mekanizmasýnýn kullanýlmasý için
-            app.UseAuthorization(); // [Authorize] attribute için (yetki)
             app.UseAuthentication(); // Login Logout iþlemlerinin gerektirtiði oturum iþleyiþlerini kullanabilmek için.
+            app.UseAuthorization(); // [Authorize] attribute için (yetki)
             //MVC ile ayný kod bloðu endpoint'in mekanizmasýnýn nasýl olacaðý belirleniyor
 
             //rolleri oluþturacak static metot çaðrýldý
