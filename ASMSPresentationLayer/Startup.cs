@@ -35,7 +35,8 @@ namespace ASMSPresentationLayer
         {
             //Aspnet Core'un ConnectionString baðlantýsý yapabilmesi için yapýlandýrma servislerine dbcontext nesnesini eklemesi gerekir.
             services.AddDbContext<MyContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));//Mycontext aþaðýda unitofwork da da yapmýþtýk burda da çakýþma durumu olduðu için bunu önlemek amaçlý ServiceLifeTime komutunu kullandýk
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+             .AddRazorRuntimeCompilation();//Proje çalýþýrken razor sayfalarýnda yapýlan deðiþiklikler anýnda sayfaya yansýmasý için eklendi
 
             services.AddRazorPages(); //Razo sayfalarý için
             services.AddMvc();
@@ -60,9 +61,8 @@ namespace ASMSPresentationLayer
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IStudentBusinessEngine, StudentBusinessEngine>();
             services.AddScoped<IUsersAddressBusinessEngine, UsersAddressBusinessEngine>();
+            services.AddScoped<ICityBusinessEngine, CityBusinessEngine>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-
 
         }
 

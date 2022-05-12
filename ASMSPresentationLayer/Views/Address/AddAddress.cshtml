@@ -5,13 +5,10 @@
     Layout = "~/Views/Shared/_LayoutASMSPages.cshtml";
 }
 
-
 <br />
 <br />
 
 <h3>Yeni Adres Ekleyebilirsiniz...</h3>
-
-
 
 <div class="row" style="background-color:whitesmoke; border-radius:4px; padding:10px;">
     <div class="col-md-12">
@@ -26,9 +23,12 @@
             <div class="form-group">
                 <span class="text-danger" style="font-weight:bold; margin-right:3px;">*</span>
                 <label for="City" style="font-weight:bold">İl</label>
-                <select id="CitySelect" name="City" class="form-control" required>
+                <select id="CitySelect" name="City" class="form-control" style="padding:3px" required>
                     <option value="0" selected>***İl Seçiniz***</option>
-
+                    @foreach (var item in ViewBag.Cities)
+                    {
+                        <option value="@item.Id">@item.CityName</option>
+                    }
                 </select>
             </div>
 
@@ -68,3 +68,32 @@
     </div>
 
 </div>
+
+@section Scripts {
+ <script>
+     $(document).ready(function)(){
+
+         //Sayfa ilk açıldığında bazı combolar pasif olacak
+
+     });
+
+     $('#CitySelect').on('change',function() {
+         //ilçeyi temizle
+         var $district = $("#DistrictSelect");
+         $district.empty();
+         $district.append("<option value='0' selected>***İlçe Seçiniz***</option>");
+
+         //mahalle temizle
+         var $neighbourhood = $("#NeighbourhoodSelect");
+         $neighbourhood.empty();
+         $neighbourhood.append("<option value='0' selected>***Mahalle Seçiniz***</option>");
+         
+         var cityId = this.value;
+         //Eğer seçilen ilin id'si sıfırdan büyükse ajaxla ilçeleri getir
+         if(cityId>0) {
+             //to be contiuned... yarın devam edilecektir.
+         }
+     });
+
+ </script>
+}
