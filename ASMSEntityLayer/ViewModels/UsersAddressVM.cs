@@ -12,10 +12,12 @@ namespace ASMSEntityLayer.ViewModels
     public class UsersAddressVM
     {
         public int Id { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; }
+
+  
         public string UserId { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Adres Başlığı Gereklidir!")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Adres başlığı en az 2 en çok 50 karakter aralığında olmalıdır!!")]
         [Display(Name = "Adres Başlığı")]
         public string AddressTitle { get; set; }

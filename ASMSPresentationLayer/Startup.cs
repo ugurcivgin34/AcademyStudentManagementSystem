@@ -62,6 +62,8 @@ namespace ASMSPresentationLayer
             services.AddScoped<IStudentBusinessEngine, StudentBusinessEngine>();
             services.AddScoped<IUsersAddressBusinessEngine, UsersAddressBusinessEngine>();
             services.AddScoped<ICityBusinessEngine, CityBusinessEngine>();
+            services.AddScoped<IDistrictBusinessEngine, DistrictBusinessEngine>();
+            services.AddScoped<INeighbourhoodBusinessEngine, NeighbourhoodBusinessEngine>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         }
