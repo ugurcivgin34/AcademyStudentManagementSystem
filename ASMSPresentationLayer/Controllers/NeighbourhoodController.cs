@@ -16,7 +16,7 @@ namespace ASMSPresentationLayer.Controllers
             _neighbourhoodBusinessEngine = neighbourhoodBusinessEngine;
         }
 
-        public JsonResult GetDistrictNeighbourhoods(byte id)
+        public JsonResult GetDistrictNeighbourhoods(int id)
         {
             try
             {

@@ -18,9 +18,9 @@ namespace ASMSEntityLayer.Models
         //ilişki ilçeyle
         public int DistrictId { get; set; }
         [ForeignKey("DistrictId")]
-        public  DistrictVM District { get; set; }
+        public virtual District District { get; set; }
         // ilişki
-        public  ICollection<UsersAddress> UsersAddresses { get; set; }
+        public virtual ICollection<UsersAddress> UsersAddresses { get; set; }
 
 
     }

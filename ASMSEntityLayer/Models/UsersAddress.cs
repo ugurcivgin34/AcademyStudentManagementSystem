@@ -19,6 +19,7 @@ namespace ASMSEntityLayer.Models
         public int NeighbourhoodId { get; set; } //Mahalleyle ilişki
         [StringLength(500, ErrorMessage = "Adres detayı en çok 500 karakter aralığında olabilir!!")]
         public string AddressDetails { get; set; }
+
         [StringLength(5, MinimumLength = 5, ErrorMessage = "Posta Kodu 5 karakter olmalıdır!!")]
         public string PostCode { get; set; } // 34000
         //ilişkiler 
