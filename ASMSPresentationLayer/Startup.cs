@@ -1,4 +1,4 @@
-using ASMSDataAccessLayer;
+ï»¿using ASMSDataAccessLayer;
 using ASMSEntityLayer.IdentityModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,7 +17,7 @@ using ASMSBusinessLayer.EmailService;
 using ASMSBusinessLayer.ContractBLL;
 using ASMSBusinessLayer.ImplementationsBLL;
 using ASMSDataAccessLayer.ContractsDAL;
-using ASMSDataAccessLayer.ÝmplementationsDAL;
+using ASMSDataAccessLayer.Ä°mplementationsDAL;
 
 namespace ASMSPresentationLayer
 {
@@ -33,14 +33,14 @@ namespace ASMSPresentationLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Aspnet Core'un ConnectionString baðlantýsý yapabilmesi için yapýlandýrma servislerine dbcontext nesnesini eklemesi gerekir.
-            services.AddDbContext<MyContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));//Mycontext aþaðýda unitofwork da da yapmýþtýk burda da çakýþma durumu olduðu için bunu önlemek amaçlý ServiceLifeTime komutunu kullandýk
+            //Aspnet Core'un ConnectionString baÄŸlantÄ±sÄ± yapabilmesi iÃ§in yapÄ±landÄ±rma servislerine dbcontext nesnesini eklemesi gerekir.
+            services.AddDbContext<MyContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));//Mycontext aÅŸaÄŸÄ±da unitofwork da da yapmÄ±ÅŸtÄ±k burda da Ã§akÄ±ÅŸma durumu olduÄŸu iÃ§in bunu Ã¶nlemek amaÃ§lÄ± ServiceLifeTime komutunu kullandÄ±k
             services.AddControllersWithViews()
-             .AddRazorRuntimeCompilation();//Proje çalýþýrken razor sayfalarýnda yapýlan deðiþiklikler anýnda sayfaya yansýmasý için eklendi
+             .AddRazorRuntimeCompilation();//Proje Ã§alÄ±ÅŸÄ±rken razor sayfalarÄ±nda yapÄ±lan deÄŸiÅŸiklikler anÄ±nda sayfaya yansÄ±masÄ± iÃ§in eklendi
 
-            services.AddRazorPages(); //Razo sayfalarý için
+            services.AddRazorPages(); //Razo sayfalarÄ± iÃ§in
             services.AddMvc();
-            services.AddSession(options => options.IdleTimeout = TimeSpan.FromSeconds(20)); //oturum zamaný
+            services.AddSession(options => options.IdleTimeout = TimeSpan.FromSeconds(20)); //oturum zamanÄ±
 
             //****************************************//
             services.AddIdentity<AppUser, AppRole>(options =>
@@ -79,35 +79,28 @@ namespace ASMSPresentationLayer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStaticFiles(); // wwwroot klasörünün eriþimi içindir.
+            app.UseStaticFiles(); // wwwroot klasÃ¶rÃ¼nÃ¼n eriÅŸimi iÃ§indir.
             app.UseRouting(); // Controller/Action/Id
-            app.UseSession(); // Oturum mekanizmasýnýn kullanýlmasý için
-            app.UseAuthentication(); // Login Logout iþlemlerinin gerektirtiði oturum iþleyiþlerini kullanabilmek için.
-            app.UseAuthorization(); // [Authorize] attribute için (yetki)
-            //MVC ile ayný kod bloðu endpoint'in mekanizmasýnýn nasýl olacaðý belirleniyor
+            app.UseSession(); // Oturum mekanizmasÄ±nÄ±n kullanÄ±lmasÄ± iÃ§in
+            app.UseAuthentication(); // Login Logout iÅŸlemlerinin gerektirtiÄŸi oturum iÅŸleyiÅŸlerini kullanabilmek iÃ§in.
+            app.UseAuthorization(); // [Authorize] attribute iÃ§in (yetki)
+            //MVC ile aynÄ± kod bloÄŸu endpoint'in mekanizmasÄ±nÄ±n nasÄ±l olacaÄŸÄ± belirleniyor
 
-            //rolleri oluþturacak static metot çaðrýldý
+            //rolleri oluÅŸturacak static metot Ã§aÄŸrÄ±ldÄ±
             CreateDefaultData.CreateData.Create(roleManager);
 
+            //MVC ile aynÃ½ kod bloÃ°u endpoint'in mekanizmasÃ½nÃ½n nasÃ½l olacaÃ°Ã½ belirleniyor
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapAreaControllerRoute(
+                 "management",
+                 "management",
+                 "management/{controller=Admin}/{action=Login}/{id?}"
+                 );
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-                //    endpoints.MapAreaControllerRoute(
-                //        name: "management",
-                //        areaName: "management",
-                //        pattern: "{area:management}/{controller=Admin}/{action=Login}/{id?}"
-                //        );
-                //});
-
-                endpoints.MapAreaControllerRoute(
-                  "management",
-                  "management",
-                  "management/{controller=Admin}/{action=Index}/{id?}"
-                  );
 
             });
         }
